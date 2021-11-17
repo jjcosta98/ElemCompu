@@ -74,8 +74,10 @@ double *Jacobi(int l, double **A, double *b, int nit){
 		perror("ERROR. There is not enough memory");
 		exit(EXIT_FAILURE);
 	}
-	for(i=0; i<l;i++){
-		x[i]=0.0000;}
+  int p;
+	for(p=0; <l;p++){
+		x[p]=0.0000;
+    }
 	double *c;
 	int k, i, j;
 	for (k=0;k<nit;k++){
