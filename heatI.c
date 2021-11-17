@@ -152,14 +152,14 @@ double *v3=JacobiM(pasox-1, AI, v2, 200);
   }
   */
 
-FILE *HeatIJ = fopen("HeatIJ.dat", "w");
+FILE *HeatI2 = fopen("HeatI2.dat", "w");
 	for (i = pasot/5; i < pasot+1; i++){
 		for (j=pasox/5; j<pasox+1; j++){
-    		fprintf(HeatIJ, "%f %f %f", ti[i], x[j],TI[i][j]);
-    		fprintf(HeatIJ, "\n");
+    		fprintf(HeatI2, "%f %f %f", ti[i], x[j],TI[i][j]);
+    		fprintf(HeatI2, "\n");
 		}
 	}
-	fclose(HeatIJ);
+	fclose(HeatI2);
 
 
 free(x);
