@@ -7,13 +7,13 @@
 
 
 
-/* Método Euler Explícito */
+/* Método Euler Implícito */
 
 int main()
 {
 
 int i,j,k,l;
-double alfa=1.0 ,C ,tf=1.0 , dx , dt;
+double alfa=1.0 ,C ,tf=0.01 , dx , dt;
 double x0=0.0;
 double xf=1.0;
 double **A, **T;
@@ -21,7 +21,7 @@ double *t;
 double *x;
 double *T0, Ta=0.0, Tb=0.0;
 
-int pasox=100, pasot=2000;
+int pasox=100, pasot=100;
 
 dx=(xf-x0)/pasox;
 dt=(tf)/pasot;
@@ -37,68 +37,13 @@ T= MatDin(pasot+1, pasox+1);
 for(j=0; j<pasox+1;j++ )
  {
 		x[j]=x0+j*dx;
-    T0[j]=exp(x[j]); /*Condición de Frontera T0(x)=e^(X)*/
+    T0[j]=exp(x[j]);
 	}
 for(i=0; i<pasot+1;i++ )
  {
 		t[i]=i*dt;
 	}
 
-
-/*Matriz A=(I-CK)*/
-for(i=0; i<pasox-1;i++){
-		for(j=0;j<pasox-1;j++){
-			if(j==i){
-				A[i][j]=1-2*C;
-			}else if(j==i-1){
-				A[i][j]=C;
-			}else if (j==i+1){
-				A[i][j]=C;
-			}else{
-				A[i][j]=0.0;
-			}
-		}
-	}
-
-/* Matriz final T^{k+1} que es la A*T^{k}+dt*q^{k}, solo las condiciones de frontera */
-for(j=0; j<pasox+1;j++)
-  {
-		T[0][j]=T0[j];
-	}
-	for(i=0;i<pasot+1;i++)
-  {
-		T[i][0]=Ta;
-		T[i][pasox]=Tb;
-	}
-
-/* Elemento q*dt*/
-double *qdt = VectDin(pasox-1);
-double *v = VectDin(pasox-1);
-for(i=1; i<pasot+1;i++)
-{
-  for(j=0; j<pasox-1;j++)
-  {
-    qdt[j]=cos(M_PI*t[i])*sin(2*M_PI*x[j+1])*dt;
-/* Se van creando vectores T^{k} para luego multiplicarlos con A, con x variando y t fijo*/
-    v[j]=T[i-1][j+1];
-  }
-
-/* Solución final Euler Explícito*/
-double *ATk= MatMult(A, v, pasox-1, pasox-1);
-  for(k=0; k<pasox-1;k++)
-  {
-    T[i][k+1]=ATk[k]+qdt[k];
-    
-  }
-}
-
-for (i=0;i<pasot+1;i++){
-    for (j=0;j<pasox+1;j++){
-      
-      printf("%f \t",T[i][j]);
-    }
-    printf("\n");
-  }
 
 /* Método Euler Implícito */
 
@@ -122,7 +67,7 @@ for(i=0; i<pasox-1;i++){
 			}else if (j==i+1){
 				AI[i][j]=-C;
 			}else{
-				AI[i][j]=0.0d;
+				AI[i][j]=0.0;
 			}
 		}
 	}
@@ -139,8 +84,8 @@ for(j=0; j<pasox+1;j++)
 	}
 	for(i=0;i<pasot+1;i++)
   {
-		TI[i][0]=0.0d;
-		TI[i][pasox]=0.0d;
+		TI[i][0]=0.0;
+		TI[i][pasox]=0.0;
 	}
 
 
@@ -184,22 +129,36 @@ for(i=1; i<pasot+1;i++)
   {
     v2[j] = vI[j] + qIdt[j];
   }
+  /* Se resuelve el sistema de ecuaciones lineales utilizando Jacobi */
+
+double *v3=VectDin(pasox-1);
+		v3=JacobiM(pasox-1, AI, v2, 200);
+  for(k=0;k<pasox-1;k++)
+   {
+			TI[i][k+1]=v3[k];
+		}
 }
 
+/*for (i=0;i<pasot+1;i++){
+    for (j=0;j<pasox+1;j++){
+      
+      printf("%f \t",TI[i][j]);
+    }
+    printf("\n");
+  }
+  */
+
+FILE *HeatI2 = fopen("HeatI2.dat", "w");
+	for (i = pasot/5; i < pasot+1; i++){
+		for (j=pasox/5; j<pasox+1; j++){
+    		fprintf(HeatI2, "%f %f %f", t[i], x[j],TI[i][j]);
+    		fprintf(HeatI2, "\n");
+		}
+	}
+	fclose(HeatI2);
 
 
-/* Se resuelve el sistema de ecuaciones lineales utilizando Jacobi */
-
-
-
-
-
-
-
-
-
-
-
+return 0;
 
 }
 

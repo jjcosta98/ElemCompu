@@ -67,32 +67,41 @@ double *VectDin(int n)
 
 }
 
-double *Jacobi(int l, double **a, double *b, int nit){
+double *JacobiM(int l, double **a, double *b, int nit)
+{
 	double *x=NULL;
 	x=(double *) malloc((size_t) l * sizeof(double) );
-	if(x==NULL){
+	if(x==NULL)
+  {
 		perror("ERROR. There is not enough memory");
 		exit(EXIT_FAILURE);
 	}
   int p;
-	for(p=0; <l;p++){
+	for(p=0; p<l;p++)
+  {
 		x[p]=0.0000;
-    }
+  }
 	double *c;
 	c = VectDin(l);
 	int k, i, j;
-	for (k=0;k<nit;k++){
-	for (i=0;i<l,i++) {
+	for (k=0;k<nit;k++)
+  {
+	for (i=0;i<l;i++) 
+  {
 		c[i]=b[i];
-		for (j=0,j<l;j++){
-			if (i!=j) {
+		for (j=0;j<l;j++)
+    {
+			if (i!=j) 
+      {
 				c[i]=c[i]-a[i][j]*x[j];
 			}
 		}	
 	}
-	for (i=0;i<l;i++){
+	for (i=0;i<l;i++)
+  {
 		x[i]=c[i]/a[i][i];
 	}
-		
-	return x
+  }
+
+	return x;
 }
