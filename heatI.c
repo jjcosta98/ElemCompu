@@ -16,8 +16,7 @@ int i,j,k,l;
 double alfa=1.0 ,C ,tf=0.01 , dx , dt;
 double x0=0.0;
 double xf=1.0;
-double **A, **T;
-double *t;
+double *ti;
 double *x;
 double *T0, Ta=0.0, Tb=0.0;
 
@@ -28,10 +27,9 @@ dt=(tf)/pasot;
 C=(alfa*dt)/(dx*dx);
 
 x= VectDin(pasox+1);
-t= VectDin(pasot+1);
+ti= VectDin(pasot+1);
 T0= VectDin(pasox+1);
-A= MatDin(pasox-1, pasox-1);
-T= MatDin(pasot+1, pasox+1);
+
 
 /*Vectores tiempo y espacio discretizados*/
 for(j=0; j<pasox+1;j++ )
@@ -41,7 +39,7 @@ for(j=0; j<pasox+1;j++ )
 	}
 for(i=0; i<pasot+1;i++ )
  {
-		t[i]=i*dt;
+		ti[i]=i*dt;
 	}
 
 
@@ -98,11 +96,11 @@ for(j=0; j<pasox+1;j++)
 double *qIdt = VectDin(pasox-1);
 double *vI = VectDin(pasox-1);
 double *v2 = VectDin(pasox-1);
-for(i=1; i<pasot+1;i++)
+for(i=1; i<pasot;i++)
 {
   for(j=0; j<pasox-1;j++)
   {
-    qIdt[j]=cos(M_PI*t[i+1])*sin(2*M_PI*x[j+1])*dt;
+    qIdt[j]=cos(M_PI*ti[i+1])*sin(2*M_PI*x[j+1])*dt;
 
 
   
@@ -131,12 +129,18 @@ for(i=1; i<pasot+1;i++)
   }
   /* Se resuelve el sistema de ecuaciones lineales utilizando Jacobi */
 
-double *v3=VectDin(pasox-1);
-		v3=JacobiM(pasox-1, AI, v2, 200);
+double *v3=JacobiM(pasox-1, AI, v2, 200);
+		
   for(k=0;k<pasox-1;k++)
    {
 			TI[i][k+1]=v3[k];
+			
 		}
+	
+	   free(v3);
+	  
+   
+
 }
 
 /*for (i=0;i<pasot+1;i++){
@@ -148,14 +152,34 @@ double *v3=VectDin(pasox-1);
   }
   */
 
-FILE *HeatI2 = fopen("HeatI2.dat", "w");
+FILE *HeatIJ = fopen("HeatIJ.dat", "w");
 	for (i = pasot/5; i < pasot+1; i++){
 		for (j=pasox/5; j<pasox+1; j++){
-    		fprintf(HeatI2, "%f %f %f", t[i], x[j],TI[i][j]);
-    		fprintf(HeatI2, "\n");
+    		fprintf(HeatIJ, "%f %f %f", ti[i], x[j],TI[i][j]);
+    		fprintf(HeatIJ, "\n");
 		}
 	}
-	fclose(HeatI2);
+	fclose(HeatIJ);
+
+
+free(x);
+free(ti);
+free(T0);
+free(qIdt);
+free(vI);
+free(v2);
+
+for(i=0;i<pasox-1;i++)
+   {
+	   free(AI[i]);
+   }
+	 free(AI);
+for(i=0;i<pasot+1;i++)
+   {
+	   free(TI[i]);
+   }
+	 free(TI);
+
 
 
 return 0;

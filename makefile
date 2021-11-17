@@ -1,4 +1,4 @@
-FLAGS0 = -O0
+vaFLAGS0 = -O0
 FLAGS1 = -O2
 FLAGS2 = -O3
 FLAGS3 = -Og
@@ -17,7 +17,7 @@ solheatE: $(OBJECTS1)
 	gcc -o $(BIN1) $(FLAGS1) $(OBJECTS1) -lm
 
 solheatI: $(OBJECTS2)
-	gcc -o $(BIN1) $(FLAGS1) $(OBJECTS2) -lm
+	gcc -o $(BIN2) $(FLAGS1) $(OBJECTS2) -lm
 
 soldebug: $(OBJECTS1) 
 	gcc -g -o $(BIN2) $(FLAGS0) $(OBJECTS1) -lm

@@ -91,7 +91,7 @@ double *ATk= MatMult(A, v, pasox-1, pasox-1);
     T[i][j+1]=ATk[j]+qdt[j];
     
   }
-  
+  free(ATk);
 }
 
 
@@ -105,17 +105,32 @@ double *ATk= MatMult(A, v, pasox-1, pasox-1);
 */
 
 
-FILE *HeatE2 = fopen("HeatE2.dat", "w");
+FILE *HeatE = fopen("HeatE.dat", "w");
 	for (i = pasot/5; i < pasot+1; i++){
 		for (j=pasox/5; j< pasox+1; j++){
-    		fprintf(HeatE2, "%f %f %f", t[i], x[j],T[i][j]);
-    		fprintf(HeatE2, "\n");
+    		fprintf(HeatE, "%f %f %f", t[i], x[j],T[i][j]);
+    		fprintf(HeatE, "\n");
 		}
 	}
-	fclose(HeatE2);
+	fclose(HeatE);
 
 
-
+free(x);
+free(t);
+free(T0);
+free(qdt);
+free(v);
+for(i=0;i<pasox-1;i++)
+   {
+	   free(A[i]);
+   }
+	 free(A);
+for(i=0;i<pasot+1;i++)
+   {
+	   free(T[i]);
+   }
+	 free(T);
+//free(ATk);
 
 
 return 0;
