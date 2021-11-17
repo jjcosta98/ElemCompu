@@ -67,7 +67,7 @@ double *VectDin(int n)
 
 }
 
-double *Jacobi(int l, double **A, double *b, int nit){
+double *Jacobi(int l, double **a, double *b, int nit){
 	double *x=NULL;
 	x=(double *) malloc((size_t) l * sizeof(double) );
 	if(x==NULL){
@@ -79,6 +79,7 @@ double *Jacobi(int l, double **A, double *b, int nit){
 		x[p]=0.0000;
     }
 	double *c;
+	c = VectDin(l);
 	int k, i, j;
 	for (k=0;k<nit;k++){
 	for (i=0;i<l,i++) {
@@ -92,5 +93,6 @@ double *Jacobi(int l, double **A, double *b, int nit){
 	for (i=0;i<l;i++){
 		x[i]=c[i]/a[i][i];
 	}
+		
 	return x
 }
