@@ -11,7 +11,7 @@
 
 int main()
 {
-
+//Declaran variables y constantes a utilizar
 int i,j,k,l;
 double alfa=1.0 ,C ,tf=0.01 , dx , dt;
 double x0=0.0;
@@ -20,7 +20,7 @@ double *ti;
 double *x;
 double *T0, Ta=0.0, Tb=0.0;
 
-int pasox=100, pasot=100;
+int pasox=100, pasot=100; /*Se cambia el pasot para ver la convergencia o divergencia (en el caso del implícito si converge)*/
 
 dx=(xf-x0)/pasox;
 dt=(tf)/pasot;
@@ -78,7 +78,7 @@ for(i=0; i<pasox-1;i++){
 
 for(j=0; j<pasox+1;j++)
   {
-		TI[0][j]=T0[j];
+		TI[0][j]=T0[j]; //condiciones iniciales dadas
 	}
 	for(i=0;i<pasot+1;i++)
   {
@@ -127,9 +127,9 @@ for(i=1; i<pasot+1;i++)
   {
     v2[j] = vI[j] + qIdt[j];
   }
-  /* Se resuelve el sistema de ecuaciones lineales utilizando Jacobi */
+  /* Se resuelve el sistema de ecuaciones lineales Ax=b utilizando Jacobi */
 
-double *v3=JacobiM(pasox-1, AI, v2, 200);
+double *v3=JacobiM(pasox-1, AI, v2, 200); //Recibe AI y v2 para obtener T^{k+1}
 		
   for(k=0;k<pasox-1;k++)
    {
@@ -152,6 +152,8 @@ double *v3=JacobiM(pasox-1, AI, v2, 200);
   }
   */
 
+//se guardan las entradas de t,x, TI en un archivo .dat para luego graficar
+
 FILE *HeatI2 = fopen("HeatI2.dat", "w");
 	for (i = pasot/5; i < pasot+1; i++){
 		for (j=pasox/5; j<pasox+1; j++){
@@ -161,7 +163,7 @@ FILE *HeatI2 = fopen("HeatI2.dat", "w");
 	}
 	fclose(HeatI2);
 
-
+// Libera toda la memoria asignada y utilizada
 free(x);
 free(ti);
 free(T0);

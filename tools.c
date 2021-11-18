@@ -7,10 +7,10 @@
 
 
 /* Creación Matriz dinámica para producto Matriz-vector */
-double **MatDin(int fil, int col)
+double **MatDin(int fil, int col) //Entra las filas y columnas para la matriz
 {
 	 int i;
-	 double **A = NULL;
+	 double **A = NULL; //Se crea un doble apuntador para asignarle la memoria
 	 A = (double **)malloc(fil*sizeof(double *));
 	 for(i=0;i<fil;i++)
    {
@@ -26,9 +26,9 @@ double **MatDin(int fil, int col)
 }
 
 /* Genero Vector Dinámico para producto */
-double *VectDin(int n)
+double *VectDin(int n) //Entra la dimensión del vector
 {
-	double *vector=NULL;
+	double *vector=NULL; //Se crea un apuntador
 	vector=(double *) malloc((size_t) n * sizeof(double) );
 	if(vector==NULL)
   {
@@ -42,7 +42,7 @@ double *VectDin(int n)
 
   /*Multiplicación Matriz Vector*/
 
-  double *MatMult(double **A, double *xx, int dimension, int fil)
+  double *MatMult(double **A, double *xx, int dimension, int fil) //Recibe matriz, vector, dimension de vector y fila de matriz
 {
 
 	int i,j;
@@ -67,7 +67,8 @@ double *VectDin(int n)
 
 }
 
-double *JacobiM(int l, double **a, double *b, int nit)
+//Método de Jacobi
+double *JacobiM(int l, double **a, double *b, int nit) //Recibe la matriz A, vector b, número de iteraciones y tamaño de la matriz para resolver el sistema Ax=b
 {
 	double *x=NULL;
 	x=(double *) malloc((size_t) l * sizeof(double) );
@@ -99,7 +100,7 @@ double *JacobiM(int l, double **a, double *b, int nit)
 	}
 	for (i=0;i<l;i++)
   {
-		x[i]=c[i]/a[i][i];
+		x[i]=c[i]/a[i][i]; // entra en la x[i]=b[i]-\sum_{j=0}^n a[i][j]*x[j]/a[i][i]
 	}
   }
 

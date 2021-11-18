@@ -11,7 +11,7 @@
 
 int main()
 {
-
+//Declaran variables y constantes a utilizar
 int i,j;
 double alfa=1.0 ,C ,tf=0.01 , dx , dt;
 double x0=0.0;
@@ -25,7 +25,7 @@ int pasox=100, pasot=1000; /*Se cambia el pasot para ver la convergencia o diver
 
 dx=(xf-x0)/pasox;
 dt=(tf)/pasot;
-C=(alfa*dt)/(dx*dx);
+C=(alfa*dt)/(dx*dx);//Constante que multiplica a la matriz K
 x= VectDin(pasox+1);
 t= VectDin(pasot+1);
 T0= VectDin(pasox+1);
@@ -62,7 +62,7 @@ for(i=0; i<pasox-1;i++){
 /* Matriz final T^{k+1} que es la A*T^{k}+dt*q^{k}, solo las condiciones de frontera */
 for(j=0; j<pasox+1;j++)
   {
-		T[0][j]=T0[j];
+		T[0][j]=T0[j]; //Condiciones iniciales dadas
 	}
 	for(i=0;i<pasot+1;i++)
   {
@@ -88,7 +88,7 @@ double *ATk= MatMult(A, v, pasox-1, pasox-1);
   
   for(j=0; j<pasox-1;j++)
   {
-    T[i][j+1]=ATk[j]+qdt[j];
+    T[i][j+1]=ATk[j]+qdt[j];//multiplicación para obtener T^{k+1}
     
   }
   free(ATk);
@@ -104,7 +104,7 @@ double *ATk= MatMult(A, v, pasox-1, pasox-1);
   }
 */
 
-
+//Se guardan las entradas de t, x y T^{k} para hacer un archivo .dat y graficar
 FILE *HeatE = fopen("HeatE.dat", "w");
 	for (i = pasot/5; i < pasot+1; i++){
 		for (j=pasox/5; j< pasox+1; j++){
@@ -114,7 +114,7 @@ FILE *HeatE = fopen("HeatE.dat", "w");
 	}
 	fclose(HeatE);
 
-
+//Se libera toda la memoria asignada y utilizada por las distinas variables
 free(x);
 free(t);
 free(T0);
