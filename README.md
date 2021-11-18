@@ -17,7 +17,7 @@ Eso habrá completado la descarga, luego escriba:
 ```cd ElemCompu```
 
 #### Compilar 
-una vez en el directorio ``ElemCompu````, escriba:
+una vez en el directorio ```ElemCompu```, escriba:
 
 ```make ```
 
