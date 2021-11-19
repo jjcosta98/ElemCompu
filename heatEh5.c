@@ -179,7 +179,7 @@ FILE *HeatE2 = fopen("HeatE2.dat", "w");
      * Write the data to the dataset.
      */
     status = H5Dwrite (dset, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT,
-                T[0]);
+                wdata[0]);
 
     /*
      * Close and release resources.
